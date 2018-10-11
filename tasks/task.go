@@ -2,9 +2,9 @@ package tasks
 
 // Task - test struct
 type Task struct {
-	ID     int
-	Name   string
-	Active bool
+	ID     int    // ID
+	Name   string // Task title (?)
+	Active bool   // Ready or not
 }
 
 // PrintInfo - for template generation
