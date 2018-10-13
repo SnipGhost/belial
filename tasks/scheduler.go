@@ -19,24 +19,32 @@ func NewScheduler() *Scheduler {
 }
 
 func (s *Scheduler) runWorker(t *Task) {
+	t.Lock()
 	t.State = sRunning
 	log.Println("Task:", t.Name, "running")
-	count := 5
+	t.Unlock()
+	count := 8
 	for i := 0; i < count; i++ {
 		select {
 		case <-t.ctx.Done():
+			t.Lock()
 			log.Println("Task:", t.Name, "finished by ctx")
 			t.State = sCanceled
+			t.Unlock()
 			return
 		default:
 		}
 		// Emulating work ...
 		// TODO: write real algorithm
 		time.Sleep(1 * time.Second)
-		log.Println("Task:", t.Name, "status", i, "/", count)
+		t.Lock()
+		log.Println("Task:", t.Name, "progress:", i, "/", count)
+		t.Unlock()
 	}
+	t.Lock()
 	log.Println("Task:", t.Name, "done")
 	t.State = sReady
+	t.Unlock()
 }
 
 // Run - waiting messages from pipe and run workers

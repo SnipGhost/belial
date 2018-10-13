@@ -1,6 +1,7 @@
 package tasks
 
 import (
+	"bytes"
 	"log"
 	"sync"
 )
@@ -63,4 +64,16 @@ func (s *Storage) DeleteTask(id uint) {
 		log.Printf("Task with ID: %d not found", id)
 	}
 	s.Unlock()
+}
+
+func (s *Storage) PrintAll() string {
+	var buffer bytes.Buffer
+	s.Lock()
+	for _, id := range s.IDs {
+		s.Tasks[id].Lock()
+		buffer.WriteString(s.Tasks[id].Name + " - " + s.Tasks[id].PrintInfo() + "<br />")
+		s.Tasks[id].Unlock()
+	}
+	s.Unlock()
+	return buffer.String()
 }

@@ -2,6 +2,7 @@ package tasks
 
 import (
 	"context"
+	"sync"
 	"time"
 )
 
@@ -16,6 +17,7 @@ const (
 
 // Task - test struct
 type Task struct {
+	sync.Mutex
 	Name   string             // Task title
 	State  statetype          // Ready or not
 	ctx    context.Context    // Context
