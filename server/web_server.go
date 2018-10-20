@@ -67,7 +67,7 @@ func (s *WebServer) Run() {
 		}
 	})
 	mux.HandleFunc("/test/", func(w http.ResponseWriter, r *http.Request) {
-		err := tmpl.ExecuteTemplate(w, "test.html", s.Data)
+		err := tmpl.ExecuteTemplate(w, "test.html", s)
 		if err != nil {
 			panic(err)
 		}
