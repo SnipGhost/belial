@@ -2,6 +2,7 @@ package tasks
 
 import (
 	"bytes"
+	"html/template"
 	"log"
 	"sync"
 )
@@ -66,14 +67,17 @@ func (s *Storage) DeleteTask(id uint) {
 	s.Unlock()
 }
 
-func (s *Storage) PrintAll() string {
+// PrintAll - printing task list to template
+func (s *Storage) PrintAll() template.HTML {
 	var buffer bytes.Buffer
+	buffer.WriteString("<ul>")
 	s.Lock()
 	for _, id := range s.IDs {
 		s.Tasks[id].Lock()
-		buffer.WriteString(s.Tasks[id].Name + " - " + s.Tasks[id].PrintInfo() + "<br />")
+		buffer.WriteString("<li>" + s.Tasks[id].Name + " - " + s.Tasks[id].PrintInfo() + "</li>")
 		s.Tasks[id].Unlock()
 	}
 	s.Unlock()
-	return buffer.String()
+	buffer.WriteString("<ul>")
+	return template.HTML(buffer.String())
 }
