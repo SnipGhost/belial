@@ -1,13 +1,69 @@
 <html>
-<style type="text/css">
-	h1 {
-		color: blue;
-	}
-</style>
+
+<head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			background: #3c3c3c;
+		}
+
+		.column {
+			float: left;
+			width: 33.33%;
+			text-align: center;
+			background: #1e1e1e;
+			color: #dddddd;
+			text-decoration: none;
+		}
+
+		.column p {
+			padding: 10px;
+		}
+
+		.focus {
+			background: #3c3c3c;
+		}
+
+		.column:hover {
+			background: #175684;
+		}
+
+		.header:after {
+			content: "";
+			display: table;
+			clear: both;
+			text-align: center;
+		}
+
+		.content {
+			padding: 20px;
+		}
+
+		.content ul {
+			color: #ffffff;
+		}
+	</style>
+</head>
 
 <body>
-	<h1>Tasks</h1>
-	{{ .PrintAll }}
+	<div class="header">
+		<a href="/" class="column focus">
+			<p>Список задач</p>
+		</a>
+		<a href="/add/" class="column">
+			<p>Добавить задачу</p>
+		</a>
+		<a href="/test/" class="column">
+			<p>Информация</p>
+		</a>
+	</div>
+	<div class="focus content">
+		{{ .PrintAll }}
+	</div>
 </body>
 
 </html>

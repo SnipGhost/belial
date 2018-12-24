@@ -1,0 +1,91 @@
+<html>
+
+<head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			background: #3c3c3c;
+		}
+
+		.column {
+			float: left;
+			width: 33.33%;
+			text-align: center;
+			background: #1e1e1e;
+			color: #dddddd;
+			text-decoration: none;
+		}
+
+		.column p {
+			padding: 10px;
+		}
+
+		.focus {
+			background: #3c3c3c;
+		}
+
+		.column:hover {
+			background: #175684;
+		}
+
+		.header:after {
+			content: "";
+			display: table;
+			clear: both;
+			text-align: center;
+		}
+
+		.content {
+			padding: 20px;
+		}
+		.content form {
+			width: 200px;
+			left: 0;
+			right: 0;
+			margin: auto;
+			margin-top: 50px;
+		}
+		.content form p {
+			color: #ffffff;
+		}
+
+		.textinput {
+			width: 200px;
+			background: #175684;
+			color: #ffffff;
+			border: 1px solid #ffffff;
+			padding: 5px;
+			border-radius: 5px;
+			font-size: 1em;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header">
+		<a href="/" class="column">
+			<p>Список задач</p>
+		</a>
+		<a href="/add/" class="column focus">
+			<p>Добавить задачу</p>
+		</a>
+		<a href="/test/" class="column">
+			<p>Информация</p>
+		</a>
+	</div>
+	<div class="focus content">
+		<form method="POST" action="/add/">
+			<p>Код =</p><input name="data" value="01011010001" class="textinput" /><br><br>
+			<p>n =</p><input name="n" type="number" value="15" class="textinput" /><br><br>
+			<p>k =</p><input name="k" type="number" value="11" class="textinput" /><br><br>
+			<p>Тип =</p><input disabled name="type" value="Циклический код" type="radiuo" class="textinput" /><br><br>
+			<input type="submit" />
+		</form>
+	</div>
+</body>
+
+</html>

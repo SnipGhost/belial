@@ -20,29 +20,11 @@ type WebServer struct {
 // NewWebServer - return initialized WebServer
 func NewWebServer(addr string, rtimeout uint, wtimeout uint) WebServer {
 
-	storage := tasks.NewStorage()
-
-	/* START OF TESTING BLOCK */
-	var tps []*tasks.Task
-	var ids []uint
-
-	tps = append(tps, tasks.NewTask("Test-1", 100))   // 0
-	tps = append(tps, tasks.NewTask("Test-2", 10000)) // 1
-	tps = append(tps, tasks.NewTask("Test-3", 10000)) // 2
-	tps = append(tps, tasks.NewTask("Test-4", 20000)) // 3
-
-	for _, tp := range tps {
-		ids = append(ids, storage.AddTask(tp))
-	}
-
-	storage.CancelTask(ids[2])
-	/* END OF TESTING BLOCK */
-
 	websrv := WebServer{
 		Addr:     addr,
 		RTimeout: rtimeout,
 		WTimeout: wtimeout,
-		Data:     storage,
+		Data:     tasks.NewStorage(),
 	}
 
 	//log.Printf("Created WebServer: %+v", websrv)
@@ -54,7 +36,11 @@ func (s *WebServer) Run() {
 
 	tmpl := template.New("")
 
-	_, err := tmpl.ParseFiles("templates/main.html", "templates/test.html")
+	_, err := tmpl.ParseFiles(
+		"templates/main.html",
+		"templates/test.html",
+		"templates/form.html",
+	)
 	if err != nil {
 		panic(err)
 	}
@@ -62,6 +48,19 @@ func (s *WebServer) Run() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		err := tmpl.ExecuteTemplate(w, "main.html", s.Data)
+		if err != nil {
+			panic(err)
+		}
+	})
+	mux.HandleFunc("/add/", func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+		data := r.FormValue("data")
+		n := r.FormValue("n")
+		k := r.FormValue("k")
+		if len(data) > 0 && len(n) > 0 && len(k) > 0 {
+			s.Data.AddTask(tasks.NewTask(data, n, k, "0", 10000))
+		}
+		err := tmpl.ExecuteTemplate(w, "form.html", s.Data)
 		if err != nil {
 			panic(err)
 		}

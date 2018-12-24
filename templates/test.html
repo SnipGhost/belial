@@ -1,16 +1,70 @@
 <html>
-<style type="text/css">
-	h1 {
-		color: blue;
-	}
-</style>
+
+<head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			background: #3c3c3c;
+			color: #ffffff;
+		}
+
+		.column {
+			float: left;
+			width: 33.33%;
+			text-align: center;
+			background: #1e1e1e;
+			color: #dddddd;
+			text-decoration: none;
+		}
+
+		.column p {
+			padding: 10px;
+		}
+
+		.focus {
+			background: #3c3c3c;
+		}
+
+		.column:hover {
+			background: #175684;
+		}
+
+		.header:after {
+			content: "";
+			display: table;
+			clear: both;
+			text-align: center;
+		}
+
+		.content {
+			padding: 20px;
+		}
+	</style>
+</head>
 
 <body>
-	<h1>Test info</h1>
-
-	Server port: <b>{{.Addr}}</b><br>
-	ReadTimeout: <b>{{.RTimeout}}</b><br>
-	WriteTimeout: <b>{{.WTimeout}}</b><br>
+	<div class="header">
+		<a href="/" class="column">
+			<p>Список задач</p>
+		</a>
+		<a href="/add/" class="column">
+			<p>Добавить задачу</p>
+		</a>
+		<a href="/test/" class="column focus">
+			<p>Информация</p>
+		</a>
+	</div>
+	<div class="focus content">
+		Server port: <b>{{.Addr}}</b><br>
+		ReadTimeout: <b>{{.RTimeout}}</b><br>
+		WriteTimeout: <b>{{.WTimeout}}</b><br>
+		<br>
+		Total tasks in storage: <b>{{len .Data.Tasks}}</b><br>
+	</div>
 </body>
 
 </html>

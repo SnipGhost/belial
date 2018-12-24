@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"html/template"
 	"log"
+	"strings"
 	"sync"
 )
 
@@ -74,7 +75,8 @@ func (s *Storage) PrintAll() template.HTML {
 	s.Lock()
 	for _, id := range s.IDs {
 		s.Tasks[id].Lock()
-		buffer.WriteString("<li>" + s.Tasks[id].Name + " - " + s.Tasks[id].PrintInfo() + "</li>")
+		output := "<br>" + strings.Replace(s.Tasks[id].Stdout.String(), "\n", "<br>", -1)
+		buffer.WriteString("<li>" + s.Tasks[id].Name + " - " + s.Tasks[id].PrintInfo() + output + "</li>")
 		s.Tasks[id].Unlock()
 	}
 	s.Unlock()
