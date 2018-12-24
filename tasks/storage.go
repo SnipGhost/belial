@@ -73,11 +73,15 @@ func (s *Storage) PrintAll() template.HTML {
 	var buffer bytes.Buffer
 	buffer.WriteString("<ul>")
 	s.Lock()
-	for _, id := range s.IDs {
-		s.Tasks[id].Lock()
-		output := "<br>" + strings.Replace(s.Tasks[id].Stdout.String(), "\n", "<br>", -1)
-		buffer.WriteString("<li>" + s.Tasks[id].Name + " - " + s.Tasks[id].PrintInfo() + output + "</li>")
-		s.Tasks[id].Unlock()
+	if len(s.IDs) == 0 {
+		buffer.WriteString("Пока что задач в списке нет")
+	} else {
+		for _, id := range s.IDs {
+			s.Tasks[id].Lock()
+			output := "<br>" + strings.Replace(s.Tasks[id].Stdout.String(), "\n", "<br>", -1)
+			buffer.WriteString("<li>" + s.Tasks[id].Name + " - " + s.Tasks[id].PrintInfo() + output + "</li><br>")
+			s.Tasks[id].Unlock()
+		}
 	}
 	s.Unlock()
 	buffer.WriteString("<ul>")

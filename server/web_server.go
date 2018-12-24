@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -57,10 +58,11 @@ func (s *WebServer) Run() {
 		data := r.FormValue("data")
 		n := r.FormValue("n")
 		k := r.FormValue("k")
-		if len(data) > 0 && len(n) > 0 && len(k) > 0 {
-			s.Data.AddTask(tasks.NewTask(data, n, k, "0", 10000))
+		timeout, err := strconv.ParseUint(r.FormValue("timeout"), 10, 64)
+		if err == nil && len(data) > 0 && len(n) > 0 && len(k) > 0 {
+			s.Data.AddTask(tasks.NewTask(data, n, k, "0", timeout))
 		}
-		err := tmpl.ExecuteTemplate(w, "form.html", s.Data)
+		err = tmpl.ExecuteTemplate(w, "form.html", s.Data)
 		if err != nil {
 			panic(err)
 		}
