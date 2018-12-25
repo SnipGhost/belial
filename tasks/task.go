@@ -125,7 +125,7 @@ func (t *Task) check() byte {
 			success[weightBits(e)]++
 		}
 	}
-	for i = 0; i < t.N; i++ {
+	for i = 0; i <= t.N; i++ {
 		select {
 		case <-t.ctx.Done():
 			t.Lock()
