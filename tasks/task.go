@@ -96,7 +96,7 @@ func (t *Task) check() byte {
 		return 1
 	}
 	t.Lock()
-	fmt.Fprintf(&t.Stdout, "Encrypted: %s\n", bitsToStr(encrypted, t.K))
+	fmt.Fprintf(&t.Stdout, "Encrypted: %s\n", bitsToStr(encrypted, t.N))
 	t.Unlock()
 	var e, rem, i uint64
 	var val float64
