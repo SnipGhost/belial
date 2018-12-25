@@ -136,9 +136,11 @@ func (t *Task) check() byte {
 			return 1
 		default:
 		}
-		val = float64(success[i]) / float64(countCombinations(t.N, i)) * 100.0
+		suc := success[i]
+		com := countCombinations(t.N, i)
+		val = float64(suc) / float64(com) * 100.0
 		t.Lock()
-		fmt.Fprintf(&t.Stdout, "%d bits in err vector: %3.2f\n", i, val)
+		fmt.Fprintf(&t.Stdout, "%d bits in err vector, combinations: %d, finded: %d - %3.2f\n", i, com, suc, val)
 		t.Unlock()
 	}
 	return 0
